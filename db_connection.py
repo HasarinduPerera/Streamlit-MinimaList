@@ -19,3 +19,26 @@ def view_task():
 	task_data = c.fetchall()
 
 	return task_data
+
+
+def get_distinct_task():
+	c.execute('SELECT DISTINCT task_title FROM tasks')
+	task_data = c.fetchall()
+
+	return task_data
+
+
+def get_task(task_title):
+	c.execute('SELECT * FROM tasks WHERE task_title="{}"'.format(task_title))
+	task_data = c.fetchall()
+
+	return task_data
+
+
+def update_task(old_task_title, task_title, task_description, task_status, task_deadline):
+	c.execute('UPDATE tasks SET task_title="{}", task_description="{}", task_status="{}", task_deadline="{}" WHERE task_title="{}"'.format(task_title, task_description, task_status, task_deadline, old_task_title))
+
+	connect_db.commit()
+
+	task_data = c.fetchall()
+	return task_data
