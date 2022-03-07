@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
-from db_connection import create_table, add_task, view_task, get_distinct_task, get_task, update_task
+from db_connection import create_table, add_task, view_task, get_distinct_task, get_task, update_task, delete_task
 
  
 def main():
@@ -47,7 +47,7 @@ def main():
 		st.subheader("Update Tasks")
 
 		list_of_tasks = [i[0] for i in get_distinct_task()]
-		selected_task = st.selectbox("Select Task", list_of_tasks)
+		selected_task = st.selectbox("Select Task To Update", list_of_tasks)
 		task_info_out = get_task(selected_task)
 
 		if selected_task:
@@ -56,7 +56,7 @@ def main():
 			task_title = st.text_input("Update Task Title", task_info_out[0][0])
 			task_description = st.text_area("Update Description", task_info_out[0][1])
 			task_status = st.selectbox("Change Status (Current Status: {})".format(task_info_out[0][2]), ["To Do", "In Progress", "Review", "Done"])
-			task_deadline = st.date_input("Due on: {}".format(task_info_out[0][3]), )
+			task_deadline = st.date_input("Due on: {}".format(task_info_out[0][3]))
 
 			if st.button("Update Task"):
 				update_task(old_task_title, task_title, task_description, task_status, task_deadline)
@@ -64,6 +64,23 @@ def main():
 
 	elif choice == "Delete Tasks":
 		st.subheader("Delete Tasks")
+
+		list_of_tasks = [i[0] for i in get_distinct_task()]
+		selected_task = st.selectbox("Select Task To Delete", list_of_tasks)
+		task_info_out = get_task(selected_task)
+
+		if selected_task:
+
+			task_title = st.text("Task Title: {}".format(task_info_out[0][0]))
+			task_description = st.text("Task Description: {}".format(task_info_out[0][1]))
+			task_status = st.text("Task Status: {}".format(task_info_out[0][2]))
+			task_deadline = st.text("Task Due Date: {}".format(task_info_out[0][3]))
+
+			task_title = task_info_out[0][0]
+
+			if st.button("Delete Task"):
+					delete_task(task_title)
+					st.success("Task Successfully Deleted!")
 
 
 if __name__ == '__main__':

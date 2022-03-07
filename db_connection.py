@@ -42,3 +42,12 @@ def update_task(old_task_title, task_title, task_description, task_status, task_
 
 	task_data = c.fetchall()
 	return task_data
+
+
+def delete_task(task_title):
+	c.execute('DELETE FROM tasks WHERE task_title="{}"'.format(task_title))
+
+	connect_db.commit()
+
+	task_data = c.fetchall()
+	return task_data
