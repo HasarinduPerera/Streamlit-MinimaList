@@ -78,9 +78,12 @@ def main():
 
 			task_title = task_info_out[0][0]
 
+			st.warning("Do you really want to delete this task? Task: {}".format(task_title))
+
 			if st.button("Delete Task"):
-					delete_task(task_title)
-					st.success("Task Successfully Deleted!")
+				delete_task(task_title)
+				st.success("Task Successfully Deleted!")
+
 
 
 if __name__ == '__main__':
